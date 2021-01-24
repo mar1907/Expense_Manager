@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Reports</title>
+</head>
+<body>
+
+Project reports:
+<br>
+<br>
+
+<table>
+    <tr th:each="line : ${projectReports}">
+        <td th:text="${line}"></td>
+    </tr>
+</table>
+
+<br>
+<a href="/mainpage">Mainpage</a>
+<br>
+<a href="/mainpage/logout">Logout</a>
+</body>
+</html>

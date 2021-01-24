@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Mainpage</title>
+</head>
+<body>
+
+<label><b>Your existing projects:</b></label>
+<br>
+<label>ID | Name | Budget | Supervisor | Clerk</label>
+<br>
+<tbody>
+<tr th:each="project: ${projects}">
+    <td th:text="${project}" />
+    <br>
+</tr>
+</tbody>
+
+<th:block th:if="${add_project} == 'true'">
+    <form action="#" data-th-action="@{/mainpage}" method="post" class="form-horizontal col-sm-6 col-sm-offset-3">
+        <div class="form-group">
+            <label><b>Create project:</b></label>
+            <br>
+            <label for="pname" class="col-sm-4 control-label">Project name:</label>
+            <div class="col-sm-8">
+                <input type="text" name="pname" id="pname" class="form-control"/>
+            </div>
+            <label for="budget" class="col-sm-4 control-label">Budget:</label>
+            <div class="col-sm-8">
+                <input type="text" name="budget" id="budget" class="form-control"/>
+            </div>
+            <label for="budget_fraction" class="col-sm-4 control-label">Travel budget fraction:</label>
+            <div class="col-sm-8">
+                <input type="text" name="budget_fraction" id="budget_fraction" class="form-control"/>
+            </div>
+            <label for="budget_fraction_travel" class="col-sm-4 control-label">Travel budget fraction per travel order:</label>
+            <div class="col-sm-8">
+                <input type="text" name="budget_fraction_travel" id="budget_fraction_travel" class="form-control"/>
+            </div>
+            <label for="clerk" class="col-sm-4 control-label">Clerk:</label>
+            <select name="clerk" id="clerk">
+                <option th:each="c: ${clerks}" th:value="${c}" th:text="${c}">
+                </option>
+            </select>
+            <div class="col-sm-offset-4 col-sm-10">
+                <button class="btn btn-primary" type="submit" name="action" value="createproj">Create</button>
+            </div>
+            <p th:text="${projectResult}" />
+
+            <label><b>Add user to project:</b></label>
+            <label for="user_for_add" class="col-sm-4 control-label">User:</label>
+            <select name="user_for_add" id="user_for_add">
+                <option th:each="u: ${user_for_add_list}" th:value="${u}" th:text="${u}">
+                </option>
+            </select>
+            <label for="project_for_add" class="col-sm-4 control-label">Project:</label>
+            <select name="project_for_add" id="project_for_add">
+                <option th:each="p: ${project_for_add_list}" th:value="${p}" th:text="${p}">
+                </option>
+            </select>
+            <div class="col-sm-offset-4 col-sm-10">
+                <button class="btn btn-primary" type="submit" name="action" value="addusertoproj">Add user to project</button>
+            </div>
+            <p th:text="${projectAddUserResult}" />
+        </div>
+    </form>
+</th:block>
+
+<th:block th:if="${add_travel_order} == 'true'">
+    <form action="#" data-th-action="@{/mainpage}" method="post" class="form-horizontal col-sm-6 col-sm-offset-3">
+        <div class="form-group">
+            <label><b>Create travel order:</b></label>
+            <br>
+            <label for="pname" class="col-sm-4 control-label">Budget:</label>
+            <div class="col-sm-8">
+                <input type="text" name="budgettravel" id="budgettravel" class="form-control"/>
+            </div>
+            <label for="budget" class="col-sm-4 control-label">Destination:</label>
+            <div class="col-sm-8">
+                <input type="text" name="destination" id="destination" class="form-control"/>
+            </div>
+            <label for="project" class="col-sm-4 control-label">Project:</label>
+            <select name="project" id="project">
+                <option th:each="p: ${projects_string}" th:value="${p}" th:text="${p}">
+                </option>
+            </select>
+            <div class="col-sm-offset-4 col-sm-10">
+                <button class="btn btn-primary" type="submit" name="action" value="createtravel">Create</button>
+            </div>
+        </div>
+    </form>
+    <p th:text="${travelResult}" />
+
+    <label><b>Your existing travel orders:</b></label>
+    <br>
+    <label>ID | Budget | Destination | Status | Project</label>
+    <br>
+    <tbody>
+    <tr th:each="travel: ${travels}">
+        <td th:text="${travel}" />
+        <br>
+    </tr>
+    </tbody>
+</th:block>
+
+<th:block th:if="${approve_travel_order_clerk} == 'true'">
+    <label><b>Travel orders to be reviewed:</b></label>
+    <br>
+    <label>ID | Budget | Destination | Status | Project | Project travel policy | Budget per travel | Compliant?</label>
+    <br>
+    <tbody>
+    <tr th:each="travel: ${travels_clerk}">
+        <td th:text="${travel}" />
+        <br>
+    </tr>
+    </tbody>
+
+    <form action="#" data-th-action="@{/mainpage}" method="post" class="form-horizontal col-sm-6 col-sm-offset-3">
+        <div class="form-group">
+            <label><b>Approve/reject travel order:</b></label>
+            <br>
+            <label for="toid" class="col-sm-4 control-label">Travel order:</label>
+            <select name="toid" id="toid">
+                <option th:each="t: ${travel_order_ids_clerk}" th:value="${t}" th:text="${t}">
+                </option>
+            </select>
+            <div class="col-sm-offset-4 col-sm-10">
+                <button class="btn btn-primary" type="submit" name="action" value="approvetravelclerk">Approve</button>
+            </div>
+            <label for="rejectreason_travelclerk" class="col-sm-4 control-label">Reject reason:</label>
+            <div class="col-sm-8">
+                <input type="text" name="rejectreason_travelclerk" id="rejectreason_travelclerk" class="form-control"/>
+            </div>
+            <div class="col-sm-offset-4 col-sm-10">
+                <button class="btn btn-primary" type="submit" name="action" value="rejecttravelclerk">Reject</button>
+            </div>
+        </div>
+    </form>
+    <p th:text="${approve_travel_clerk_result}" />
+</th:block>
+
+<th:block th:if="${approve_travel_order_supervisor} == 'true'">
+    <label><b>Travel orders to be reviewed:</b></label>
+    <br>
+    <label>ID | Budget | Destination | Status | Project | Project travel policy | Budget per travel | Compliant?</label>
+    <br>
+    <tbody>
+    <tr th:each="travel: ${travels_supervisor}">
+        <td th:text="${travel}" />
+        <br>
+    </tr>
+    </tbody>
+
+    <form action="#" data-th-action="@{/mainpage}" method="post" class="form-horizontal col-sm-6 col-sm-offset-3">
+        <div class="form-group">
+            <label><b>Approve/reject travel order:</b></label>
+            <br>
+            <label for="toid_s" class="col-sm-4 control-label">Travel order:</label>
+            <select name="toid_s" id="toid_s">
+                <option th:each="t: ${travel_order_ids_supervisor}" th:value="${t}" th:text="${t}">
+                </option>
+            </select>
+            <div class="col-sm-offset-4 col-sm-10">
+                <button class="btn btn-primary" type="submit" name="action" value="approvetravelsupervisor">Approve</button>
+            </div>
+            <label for="rejectreason_travelsupervisor" class="col-sm-4 control-label">Reject reason:</label>
+            <div class="col-sm-8">
+                <input type="text" name="rejectreason_travelsupervisor" id="rejectreason_travelsupervisor" class="form-control"/>
+            </div>
+            <div class="col-sm-offset-4 col-sm-10">
+                <button class="btn btn-primary" type="submit" name="action" value="rejecttravelsupervisor">Reject</button>
+            </div>
+        </div>
+    </form>
+    <p th:text="${approve_travel_supervisor_result}" />
+</th:block>
+
+<th:block th:if="${add_expense} == 'true'">
+    <form action="#" data-th-action="@{/mainpage}" method="post" class="form-horizontal col-sm-6 col-sm-offset-3">
+        <div class="form-group">
+            <label><b>Create expense:</b></label>
+            <br>
+            <label for="pname" class="col-sm-4 control-label">Docs:</label>
+            <br>
+            <textarea name="expensedocs" id="expensedocs"></textarea>
+            <br>
+            <label for="torder" class="col-sm-4 control-label">Travel Order:</label>
+            <select name="torder" id="torder">
+                <option th:each="t: ${torders}" th:value="${t}" th:text="${t}">
+                </option>
+            </select>
+            <div class="col-sm-offset-4 col-sm-10">
+                <button class="btn btn-primary" type="submit" name="action" value="createexpense">Create</button>
+            </div>
+        </div>
+    </form>
+    <p th:text="${expenseResult}" />
+
+    <label><b>Your existing expenses:</b></label>
+    <br>
+    <label>ID | Travel Order ID | Status</label>
+    <br>
+    <tbody>
+    <tr th:each="expense: ${expenses}">
+        <td th:text="${expense}" />
+        <br>
+    </tr>
+    </tbody>
+</th:block>
+
+<th:block th:if="${approve_expense} == 'true'">
+    <label><b>Expenses to be reviewed:</b></label>
+    <br>
+    <label>ID | Travel Order ID | Docs</label>
+    <br>
+    <tbody>
+    <tr th:each="expense: ${expenses_clerk}">
+        <td th:text="${expense}" />
+        <br>
+    </tr>
+    </tbody>
+
+    <form action="#" data-th-action="@{/mainpage}" method="post" class="form-horizontal col-sm-6 col-sm-offset-3">
+        <div class="form-group">
+            <label><b>Approve/reject expense:</b></label>
+            <br>
+            <label for="exp" class="col-sm-4 control-label">Expense:</label>
+            <select name="exp" id="exp">
+                <option th:each="e: ${expenses_clerk_ids}" th:value="${e}" th:text="${e}">
+                </option>
+            </select>
+            <div class="col-sm-offset-4 col-sm-10">
+                <button class="btn btn-primary" type="submit" name="action" value="approveexpense">Approve</button>
+            </div>
+            <label for="rejectreason_expenseclerk" class="col-sm-4 control-label">Reject reason:</label>
+            <div class="col-sm-8">
+                <input type="text" name="rejectreason_expenseclerk" id="rejectreason_expenseclerk" class="form-control"/>
+            </div>
+            <div class="col-sm-offset-4 col-sm-10">
+                <button class="btn btn-primary" type="submit" name="action" value="rejectexpense">Reject</button>
+            </div>
+        </div>
+    </form>
+    <p th:text="${approve_expense}" />
+</th:block>
+
+<br>
+<th:block th:if="${view_reports} == 'true'">
+    <a href="/mainpage/report">View Reports</a>
+</th:block>
+<br>
+
+<br>
+<label><b>Your messages:</b></label>
+<br>
+<label>ID | Type | Message</label>
+<br>
+<tbody>
+<tr th:each="message: ${messages}">
+    <td th:text="${message}" />
+    <br>
+</tr>
+</tbody>
+<form action="#" data-th-action="@{/mainpage}" method="post" class="form-horizontal col-sm-6 col-sm-offset-3">
+    <label for="exp" class="col-sm-4 control-label">Message id:</label>
+    <select name="msg" id="msg">
+        <option th:each="m: ${messages_mark}" th:value="${m}" th:text="${m}">
+        </option>
+    </select>
+    <div class="col-sm-offset-4 col-sm-10">
+        <button class="btn btn-primary" type="submit" name="action" value="markasread">Mark as Read</button>
+    </div>
+</form>
+<br>
+<a href="/mainpage/logout">Logout</a>
+</body>
+</html>

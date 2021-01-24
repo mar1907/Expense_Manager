@@ -159,8 +159,10 @@ public class MessageServiceImplementation implements MessageService {
             if(expenseOptional.isPresent()) {
                 Expense expense = expenseOptional.get();
                 if(expense.getStatus().equals("approved") || expense.getStatus().equals("rejected")) {
-                    String msg = expense.getId() + " | Expense | message: " + expense.getMessage();
-                    messageList.add(msg);
+                    if(!expense.getMessage().split(" ")[0].equals("Read")) {
+                        String msg = expense.getId() + " | Expense | message: " + expense.getMessage();
+                        messageList.add(msg);
+                    }
                 }
             }
         }

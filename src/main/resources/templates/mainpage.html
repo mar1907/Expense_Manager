@@ -143,7 +143,7 @@
 <th:block th:if="${approve_travel_order_supervisor} == 'true'">
     <label><b>Travel orders to be reviewed:</b></label>
     <br>
-    <label>ID | Budget | Destination | Status | Project | Project travel policy | Budget per travel | Compliant?</label>
+    <label>ID | Budget | Destination | Status | Project</label>
     <br>
     <tbody>
     <tr th:each="travel: ${travels_supervisor}">
@@ -212,7 +212,7 @@
 <th:block th:if="${approve_expense} == 'true'">
     <label><b>Expenses to be reviewed:</b></label>
     <br>
-    <label>ID | Travel Order ID | Docs</label>
+    <label>ID | Travel Order ID | Docs | Travel Order Budget</label>
     <br>
     <tbody>
     <tr th:each="expense: ${expenses_clerk}">

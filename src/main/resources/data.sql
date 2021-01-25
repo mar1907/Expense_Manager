@@ -26,5 +26,5 @@ INSERT INTO role_action_list (role_id, action_list_id) VALUES
 
 INSERT INTO user (id, password, username, role_id) VALUES
     (null, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", "Marius Supuran", 3),
-    (null, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", "Lucian Dragan", 2),
-    (null, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", "Valer Cosara", 1);
+    (null, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", "Secre Tar", 2),
+    (null, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", "Anga Jat", 1);

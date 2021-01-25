@@ -79,8 +79,8 @@ public class ExpenseServiceImplementation implements ExpenseService {
                 Optional<Expense> expenseOptional = expenseRepository.findByTravelOrder(t);
                 if(expenseOptional.isPresent()) {
                     Expense expense = expenseOptional.get();
-                    if (!expense.getStatus().equals("approved")) {
-                        result.add(expenseOptional.get().toFormattedString());
+                    if (!expense.getStatus().equals("approved") && !expense.getStatus().equals("rejected")) {
+                        result.add(expenseOptional.get().toFormattedString() + " | " + t.getBudget());
                     }
                 }
             }
